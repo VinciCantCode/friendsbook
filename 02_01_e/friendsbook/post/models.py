@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.core.exceptions import ValidationError
 
-BAD_WORDS = ['java', 'waterfall', 'enterprise']
+BAD_WORDS = ['c++', 'waterfall', 'enterprise']
 def validate_no_bad_words(content):
     if any([word in content.lower() for word in BAD_WORDS]):
         raise ValidationError('This post contains bad words!')
