@@ -20,6 +20,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +31,4 @@ urlpatterns = [
     path('profile/<int:profilepage_id>', profile_detail, name='profile page'),
     path('useraccount/<int:useraccount_id>/edit', useraccount_edit, name='edit user profile'),
     path('businesses', business_listing, name='business_listing')
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

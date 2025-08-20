@@ -55,6 +55,7 @@ class UserAccount(models.Model):
     location = models.CharField(max_length=200)
     favorite_color = RGBcolorField(null=True)
     about = models.TextField(null=True)
+    profile_photo = models.ImageField(upload_to = 'profile_photos', null=True, blank=True)
 
     def name(self):
         return '{} {}'.format(self.first_name, self.last_name)

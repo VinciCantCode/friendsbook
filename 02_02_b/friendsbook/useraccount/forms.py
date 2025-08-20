@@ -5,7 +5,7 @@ from .models import UserAccount
 class UserAccountForm(forms.ModelForm):
     class Meta:
         model = UserAccount
-        fields = ['first_name', 'last_name', 'birthday', 'about', 'favorite_color'] 
+        fields = ['first_name', 'last_name', 'birthday', 'about', 'favorite_color', 'profile_photo'] 
 
 
     def save(self, user=None):
