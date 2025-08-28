@@ -7,18 +7,25 @@
 
 <div class="profile" id="profile-{{profile.id}}">
     {% if own_profile %}
-        <a href="/useraccount/{{profile.user_account.id}}/edit">EDIT YOUR INFO</a>
+        <a href="/useraccount/{{profile.subject.id}}/edit">EDIT YOUR INFO</a>
     {% endif %}
-    <h2>{{profile.user_account.name}}</h2>
-    <p><span class="label">Joined:</span> {{profile.user_account.created_on}}</p>
-    <p><span class="label">Birthday:</span> {{profile.user_account.birthday}}</p>
+    <h2>{{profile.subject.name}}</h2>
+    {% if profile.subject.profile_photo %}
+        <img src="{{profile.subject.profile_photo.url}}" alt="Profile Photo" style="width: 100px; height: 100px;">
+    {% else %}
+        <div style="width: 100px; height: 100px; background-color: #f0f0f0; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; color: #666;">
+            No Photo
+        </div>
+    {% endif %}
+    <p><span class="label">Joined:</span> {{profile.subject.created_on}}</p>
+    <p><span class="label">Birthday:</span> {{profile.subject.birthday}}</p>
 
     <div class="profile-about">
-        {{profile.user_account.about}}
+        {{profile.subject.about}}
     </div>
 </div>
 
-<span class="label">The latest from {{profile.user_account.first_name}}:</span>
+<span class="label">The latest from {{profile.subject.first_name}}:</span>
 {% for post in posts %}
 <div class="post">
     <span id="post-{{post.id}}">

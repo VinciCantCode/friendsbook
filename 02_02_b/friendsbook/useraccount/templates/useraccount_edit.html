@@ -2,10 +2,55 @@
 <div class="wrapper">
 
 {{errors}}
-<form method="post" action="/useraccount/{{useraccount.id}}/edit" enctype="multipart/form-data">
+<form method="post" action="/useraccount/{{useraccount.id}}/edit" enctype="multipart/form-data" id="upload-form">
     {% csrf_token %}
-    {{profile_edit_form}}
+    
+    <!-- 手动渲染非文件字段 -->
+    <p>{{ profile_edit_form.first_name.label_tag }} {{ profile_edit_form.first_name }}</p>
+    <p>{{ profile_edit_form.last_name.label_tag }} {{ profile_edit_form.last_name }}</p>
+    <p>{{ profile_edit_form.birthday.label_tag }} {{ profile_edit_form.birthday }}</p>
+    <p>{{ profile_edit_form.about.label_tag }} {{ profile_edit_form.about }}</p>
+    <p>{{ profile_edit_form.favorite_color.label_tag }} {{ profile_edit_form.favorite_color }}</p>
+    
+    <!-- 拖拽上传区域 -->
+    <p>
+        <label>Profile Photo:</label>
+        <div id="drop-zone" onclick="document.getElementById('file-input').click()" style="border: 2px dashed #ccc; padding: 20px; text-align: center; cursor: pointer; margin: 10px 0;">
+            Drag and drop your profile photo here or click to upload
+            <div id="preview"></div>
+        </div>
+        <input type="file" id="file-input" name="profile_photo" accept="image/*" style="display: none;">
+    </p>
+    
     <input type="submit" value="Save Changes"/>
 </form>
+
+<script>
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const preview = document.getElementById('preview');
+
+// 拖拽事件
+dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.backgroundColor = '#f0f0f0'; };
+dropZone.ondragleave = () => { dropZone.style.backgroundColor = ''; };
+dropZone.ondrop = (e) => {
+    e.preventDefault();
+    dropZone.style.backgroundColor = '';
+    if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        showPreview(e.dataTransfer.files[0]);
+    }
+};
+
+// 文件选择事件
+fileInput.onchange = () => { if (fileInput.files[0]) showPreview(fileInput.files[0]); };
+
+// 显示预览
+function showPreview(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => { preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 200px; margin-top: 10px;">`; };
+    reader.readAsDataURL(file);
+}
+</script>
 
 </div>
